@@ -16,7 +16,11 @@ const {
 
 var countArray = function(array) {
     // Tu código aca:
-    
+    let suma = 0;
+    array.forEach(element => {
+        Array.isArray(element) ? suma += countArray(element) : suma += element;
+    });
+    return suma;
 }
 
 
@@ -39,7 +43,13 @@ var countArray = function(array) {
 
 var countProps = function(obj) {
     // Tu código aca:
-
+    let contador = 0;
+    for (const propiedad in obj){
+        contador++;
+        if (typeof obj[propiedad] === 'object' && !Array.isArray(obj[propiedad])) 
+            contador += countProps(obj[propiedad]) 
+    }
+    return contador;
 }
 
 
@@ -53,7 +63,16 @@ var countProps = function(obj) {
 
 LinkedList.prototype.changeNotNumbers = function(){
     // Tu código aca:
-
+    let current = this.head;
+    let cambios = 0;
+    while (current){
+        if (isNaN(current.value)){
+            current.value = 'Kiricocho'
+            cambios++;
+        }
+        current = current.next;
+    }
+    return cambios;
 }
 
 
@@ -67,7 +86,14 @@ LinkedList.prototype.changeNotNumbers = function(){
 
 var mergeQueues = function(queueOne, queueTwo) {
     // Tu código aca:
-
+    let queueThree = new Queue; 
+    while (queueOne.size() || queueTwo.size()){
+        if (queueOne.size())
+            queueThree.enqueue(queueOne.dequeue());
+        if (queueTwo.size())
+            queueThree.enqueue(queueTwo.dequeue());
+    }
+    return queueThree;
 }
 
 
@@ -82,14 +108,18 @@ var mergeQueues = function(queueOne, queueTwo) {
 
 var closureMult = function(multiplier) {
     // Tu código aca:
-
+    return function(num){
+        return multiplier * num;
+    }
 }
 
 // Implementar el método sum dentro del prototype de BinarySearchTree
 // que debe retornar la suma total de los valores dentro de cada nodo del arbol
 BinarySearchTree.prototype.sum = function() {
     // Tu código aca:
-
+    if (!this.left && !this.right)
+        return this.value;
+    return this.value + (this.right ? this.right.sum() : 0) + (this.left ? this.left.sum() : 0);
 }
 
 module.exports = {
